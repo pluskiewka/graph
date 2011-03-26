@@ -7,35 +7,20 @@ public class Point {
 	private static int next = 0;
 	private final int id = next++;
 	private int x, y;
+	private Color color;
 	
 	public Point(int x, int y) {
 		this.x = x;
 		this.y = y;
+		this.color = Color.BLUE;
 	}
 	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + id;
-		return result;
-	}
-
-	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Point other = (Point) obj;
-		if (id != other.id)
-			return false;
-		return true;
+		return (obj instanceof Point &&
+				((Point)obj).id == this.id);
 	}
-
-	public int getId() {
+	
+	public int hashCode() {
 		return id;
 	}
 	
@@ -55,10 +40,14 @@ public class Point {
 		this.y = y;
 	}
 	
+	public void setColor(Color c) {
+		this.color = c;
+	}
+	
 	public void paint(Graphics g) {
-		g.setColor(Color.RED);
+		g.setColor(color);
 		g.fillOval(x, y, 10, 10);
-		g.setColor(Color.BLACK);
+		g.setColor(color);
 		g.drawOval(x, y, 10, 10);
 	}
 }

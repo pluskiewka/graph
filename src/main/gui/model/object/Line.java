@@ -13,6 +13,15 @@ public class Line {
 		this.level = level;
 	}
 	
+	public boolean equals(Object obj) {
+		return (obj instanceof Line &&
+				((Line)obj).left.equals(this.left) && ((Line)obj).right.equals(right));
+	}
+	
+	public int hashCode() {
+		return left.hashCode()+right.hashCode();
+	}
+	
 	public int getLevel() {
 		return level;
 	}
@@ -27,6 +36,6 @@ public class Line {
 	
 	public void paint(Graphics g) {
 		g.setColor(Color.BLUE);
-		g.drawLine(left.getX(), left.getY(), right.getX(), right.getY());
+		g.drawLine(left.getX()+5, left.getY()+5, right.getX()+5, right.getY()+5);
 	}
 }

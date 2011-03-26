@@ -1,7 +1,10 @@
 package main.gui.controller;
 
+import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 
 import main.gui.model.Graph;
 import main.gui.model.object.Line;
@@ -12,6 +15,7 @@ public class CanvasController {
 
 	private Graph model;
 	private Point point, toLine;
+	private Line line;
 	private CanvasPanel panel;
 	
 	public CanvasController(Graph model, CanvasPanel panel) {
@@ -63,14 +67,17 @@ public class CanvasController {
 				else if(point != null && toLine != null) {
 					Line line = new Line(point, toLine, 1);
 					model.addLine(line);
+					toLine.setColor(Color.BLUE);
 					panel.repaint();
 					point = null;
 					toLine = null;
 				}
 			} else if (e.getClickCount() == 2) {
-				if(point != null)
+				if(point != null) {
 					toLine = point;
-				else {
+					toLine.setColor(Color.RED);
+					panel.repaint();
+				} else {
 					Point point = new Point(e.getX(), e.getY());
 					model.addPoint(point);
 					panel.repaint();
