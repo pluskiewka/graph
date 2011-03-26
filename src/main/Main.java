@@ -4,7 +4,6 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import main.gui.MainFrame;
-import main.gui.controller.MainController;
 import main.gui.model.Graph;
 
 /**
@@ -25,13 +24,8 @@ public class Main {
 		}
 	}
 	
-	private Graph model;
-	private MainFrame frame;
-	
 	public Main() {
-		model = new Graph();
-		frame = new MainFrame(model);
-		new MainController(model, frame);
+		new MainFrame(new Graph());
 	}
 	
 	/**
