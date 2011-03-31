@@ -1,14 +1,19 @@
 package main.gui;
 
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
 
 import javax.swing.GroupLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
-import main.gui.controller.CanvasController;
+import main.gui.controller.MainController;
 import main.gui.model.Graph;
+import main.gui.model.table.LineTableModel;
+import main.gui.model.table.PointTableModel;
 import main.gui.view.CanvasPanel;
 
 /**
@@ -17,10 +22,16 @@ import main.gui.view.CanvasPanel;
 public class MainFrame extends JFrame {
 	private static final long serialVersionUID = -1966090415318542313L;
 	
+	private static final String LOAD_GRAPH = "Load graph";
+	
 	private Graph model;
 	private JPanel mainPanel;
-	private JScrollPane scrollPane;
+	private JTable pointTable, lineTable;
+	private PointTableModel pointTableModel;
+	private LineTableModel lineTableModel;
+	private JScrollPane scrollPane, pointScrollPane, lineScrollPane;
 	private CanvasPanel canvas;
+	private JButton loadButton;
 	
 	public MainFrame(Graph model) {
 		super("Graph");
@@ -34,7 +45,19 @@ public class MainFrame extends JFrame {
 		this.pack();
 		this.setVisible(true);
 		
-		new CanvasController(model, canvas);
+		new MainController(model, pointTableModel, lineTableModel, this);
+	}
+	
+	public CanvasPanel getCanvas() {
+		return canvas;
+	}
+	
+	public JPanel getMainPanel() {
+		return mainPanel;
+	}
+	
+	public void addLoadButtonListener(ActionListener listener) {
+		loadButton.addActionListener(listener);
 	}
 	
 	/**
@@ -43,7 +66,14 @@ public class MainFrame extends JFrame {
 	private void initComponents() {
 		this.mainPanel = new JPanel();
 		this.canvas = new CanvasPanel(model);
+		this.pointTableModel = new PointTableModel(model);
+		this.lineTableModel = new LineTableModel(model);
+		this.pointTable = new JTable(pointTableModel);
+		this.lineTable = new JTable(lineTableModel);
 		this.scrollPane = new JScrollPane(canvas);
+		this.pointScrollPane = new JScrollPane(pointTable);
+		this.lineScrollPane = new JScrollPane(lineTable);
+		this.loadButton = new JButton(LOAD_GRAPH);
 	}
 	
 	/**
@@ -57,11 +87,19 @@ public class MainFrame extends JFrame {
 		layout.setAutoCreateContainerGaps(true);
 		
 		layout.setHorizontalGroup(
-				layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-					.addComponent(scrollPane));
+				layout.createSequentialGroup()
+					.addComponent(scrollPane)
+					.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER, true)
+							.addComponent(loadButton)
+							.addComponent(pointScrollPane, 50, 140, 160)
+							.addComponent(lineScrollPane, 50, 140, 160)));
 		
 		layout.setVerticalGroup(
-				layout.createSequentialGroup()
-					.addComponent(scrollPane));
+				layout.createParallelGroup()
+					.addComponent(scrollPane)
+					.addGroup(layout.createSequentialGroup()
+							.addComponent(loadButton)
+							.addComponent(pointScrollPane)
+							.addComponent(lineScrollPane)));
 	}
 }

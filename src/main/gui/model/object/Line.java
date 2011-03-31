@@ -34,6 +34,10 @@ public class Line {
 		return right;
 	}
 	
+	public void setLevel(int level) {
+		this.level = level;
+	}
+	
 	public void paint(Graphics g) {
 		g.setColor(Color.BLUE);
 		g.drawLine(left.getX()+5, left.getY()+5, right.getX()+5, right.getY()+5);

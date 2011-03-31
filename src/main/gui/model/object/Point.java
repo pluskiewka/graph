@@ -24,6 +24,14 @@ public class Point {
 		return id;
 	}
 	
+	public String toString() {
+		return "Point "+id;
+	}
+	
+	public int getId() {
+		return id;
+	}
+	
 	public int getX() {
 		return x;
 	}

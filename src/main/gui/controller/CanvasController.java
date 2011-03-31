@@ -3,24 +3,30 @@ package main.gui.controller;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
+
+import javax.swing.JPanel;
 
 import main.gui.model.Graph;
 import main.gui.model.object.Line;
 import main.gui.model.object.Point;
-import main.gui.view.CanvasPanel;
+import main.gui.model.table.LineTableModel;
+import main.gui.model.table.PointTableModel;
 
 public class CanvasController {
 
 	private Graph model;
 	private Point point, toLine;
+	private PointTableModel pointTableModel;
+	private LineTableModel lineTableModel;
+	@SuppressWarnings("unused")
 	private Line line;
-	private CanvasPanel panel;
+	private JPanel panel;
 	
-	public CanvasController(Graph model, CanvasPanel panel) {
+	public CanvasController(Graph model, PointTableModel pointTableModel, LineTableModel lineTableModel, JPanel panel) {
 		this.model = model;
 		this.panel = panel;
+		this.pointTableModel = pointTableModel;
+		this.lineTableModel = lineTableModel;
 		
 		this.panel.addMouseListener(new MouseListener());
 		this.panel.addMouseMotionListener(new MouseListener());
@@ -36,14 +42,21 @@ public class CanvasController {
 			final int CURR_Y = point.getY();
 			
 			if((CURR_X != x) || (CURR_Y != y)) {
-				panel.repaint(0,0,panel.getWidth(),panel.getHeight());
 				
 				point.setX(x);
 				point.setY(y);
-				
-				panel.repaint(0,0,panel.getWidth(),panel.getHeight());
+				/* Tylko repaintowanie, update danych w tabelach odbędzie się po
+				 * wykonaniu operacji dodania punktu/krawędzi albo zakończeniu
+				 * przesuwania punktu. */
+				panel.repaint();
 			}
 		}
+	}
+	
+	private void update() {
+		panel.repaint();
+		pointTableModel.fireTableDataChanged();
+		lineTableModel.fireTableDataChanged();
 	}
 	
 	class MouseListener extends MouseAdapter {
@@ -68,7 +81,7 @@ public class CanvasController {
 					Line line = new Line(point, toLine, 1);
 					model.addLine(line);
 					toLine.setColor(Color.BLUE);
-					panel.repaint();
+					update();
 					point = null;
 					toLine = null;
 				}
@@ -76,11 +89,11 @@ public class CanvasController {
 				if(point != null) {
 					toLine = point;
 					toLine.setColor(Color.RED);
-					panel.repaint();
+					update();
 				} else {
 					Point point = new Point(e.getX(), e.getY());
 					model.addPoint(point);
-					panel.repaint();
+					update();
 					point = null;
 				}
 			}
@@ -93,6 +106,14 @@ public class CanvasController {
 		@Override
 		public void mouseDragged(MouseEvent e) {
 			movePoint(e.getX(), e.getY());
+		}
+		
+		/**
+		 * Aktualizacja danych w tabeli.
+		 */
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			update();
 		}
 	}
 }
