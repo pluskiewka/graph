@@ -50,8 +50,9 @@ public class LineTableModel extends AbstractTableModel {
 	
 	@Override
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-		if(columnIndex == 2)
+		if(columnIndex == 2) {
 			lines.get(rowIndex).setLevel(Integer.parseInt((String)aValue));
+		}
 	}
 	
 	@Override

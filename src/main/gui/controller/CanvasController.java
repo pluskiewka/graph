@@ -78,8 +78,7 @@ public class CanvasController {
 				if(point != null && toLine == null)
 					movePoint(e.getX(), e.getY());
 				else if(point != null && toLine != null) {
-					Line line = new Line(point, toLine, 1);
-					model.addLine(line);
+					model.addLine(point, toLine, 1);
 					toLine.setColor(Color.BLUE);
 					update();
 					point = null;

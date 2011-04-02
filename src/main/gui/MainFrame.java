@@ -23,6 +23,7 @@ public class MainFrame extends JFrame {
 	private static final long serialVersionUID = -1966090415318542313L;
 	
 	private static final String LOAD_GRAPH = "Load graph";
+	private static final String SAVE_GRAPH = "Save graph";
 	
 	private Graph model;
 	private JPanel mainPanel;
@@ -31,7 +32,7 @@ public class MainFrame extends JFrame {
 	private LineTableModel lineTableModel;
 	private JScrollPane scrollPane, pointScrollPane, lineScrollPane;
 	private CanvasPanel canvas;
-	private JButton loadButton;
+	private JButton loadButton, saveButton;
 	
 	public MainFrame(Graph model) {
 		super("Graph");
@@ -60,6 +61,10 @@ public class MainFrame extends JFrame {
 		loadButton.addActionListener(listener);
 	}
 	
+	public void addSaveButtonListener(ActionListener listener) {
+		saveButton.addActionListener(listener);
+	}
+	
 	/**
 	 * Utworzenie obiektów jakie zawiera w sobie główny panel.
 	 */
@@ -74,6 +79,7 @@ public class MainFrame extends JFrame {
 		this.pointScrollPane = new JScrollPane(pointTable);
 		this.lineScrollPane = new JScrollPane(lineTable);
 		this.loadButton = new JButton(LOAD_GRAPH);
+		this.saveButton = new JButton(SAVE_GRAPH);
 	}
 	
 	/**
@@ -90,7 +96,9 @@ public class MainFrame extends JFrame {
 				layout.createSequentialGroup()
 					.addComponent(scrollPane)
 					.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER, true)
-							.addComponent(loadButton)
+							.addGroup(layout.createSequentialGroup()
+									.addComponent(loadButton)
+									.addComponent(saveButton))
 							.addComponent(pointScrollPane, 50, 140, 160)
 							.addComponent(lineScrollPane, 50, 140, 160)));
 		
@@ -98,7 +106,9 @@ public class MainFrame extends JFrame {
 				layout.createParallelGroup()
 					.addComponent(scrollPane)
 					.addGroup(layout.createSequentialGroup()
-							.addComponent(loadButton)
+							.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+									.addComponent(loadButton)
+									.addComponent(saveButton))
 							.addComponent(pointScrollPane)
 							.addComponent(lineScrollPane)));
 	}

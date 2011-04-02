@@ -21,6 +21,7 @@ public class MainController {
 		this.model = model;
 		this.frame = frame;
 		frame.addLoadButtonListener(new LoadButtonListener());
+		frame.addSaveButtonListener(new SaveButtonListener());
 		new CanvasController(model, pointTableModel, lineTableModel, frame.getCanvas());
 	}
 	
@@ -40,6 +41,22 @@ public class MainController {
 			}
 		}
 		
+	}
+	
+	class SaveButtonListener implements ActionListener {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JFileChooser fc = new JFileChooser();
+			int ret = fc.showSaveDialog(frame);
+			if(ret == JFileChooser.APPROVE_OPTION) {
+				/*
+				 * TODO zapisać do pliku aktualny stan modelu graphu.
+				 */
+				System.out.println(fc.getSelectedFile().getPath());
+			}
+			
+		}
 	}
 
 }
