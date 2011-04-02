@@ -40,6 +40,7 @@ public class Line {
 	
 	public void setLevel(int level) {
 		this.level = level;
+		model.setMinMax();
 		double min = model.getMin(), max = model.getMax();
 		this.rgb = (int)((255.0)*((level - min)/(max - min)));
 	}

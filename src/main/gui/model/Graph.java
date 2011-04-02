@@ -45,7 +45,7 @@ public class Graph {
 		return lines;
 	}
 	
-	private synchronized void setMinMax() {
+	public synchronized void setMinMax() {
 		int t = min;
 		min = max;
 		max = t;
@@ -58,12 +58,10 @@ public class Graph {
 	}
 	
 	public int getMax() {
-		setMinMax();
 		return max;
 	}
 	
 	public int getMin() {
-		setMinMax();
 		return min;
 	}
 	
