@@ -20,7 +20,8 @@ public class Graph {
 	}
 	
 	public void addPoint(Point point) {
-		points.add(point);
+		if(!points.contains(point))
+			points.add(point);
 	}
 	
 	public Line addLine(Point left, Point right, int level) {
