@@ -2,18 +2,20 @@ package main.gui.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
+import main.file.FileExport;
+import main.file.FileImport;
 import main.gui.MainFrame;
 import main.gui.model.Graph;
 import main.gui.model.table.LineTableModel;
 import main.gui.model.table.PointTableModel;
 
 public class MainController {
-	private JFrame frame;
-	@SuppressWarnings("unused")
+	private MainFrame frame;
 	private Graph model;
 	
 	public MainController(Graph model, PointTableModel pointTableModel,
@@ -37,7 +39,12 @@ public class MainController {
 				 * Dostęp do modelu poprzez interfejs Graph'u czyli addPoint, addLine
 				 * oraz new Point(x, y) oraz new Line(point1, point2);
 				 */
-				System.out.println(fc.getSelectedFile().getName());
+				try {
+					FileImport.importGraph(model,fc.getSelectedFile().getPath());
+					frame.getCanvas().repaint();
+				} catch (IOException e1) {
+					JOptionPane.showMessageDialog(frame, e1.toString());
+				}
 			}
 		}
 		
@@ -53,7 +60,11 @@ public class MainController {
 				/*
 				 * TODO zapisać do pliku aktualny stan modelu graphu.
 				 */
-				System.out.println(fc.getSelectedFile().getPath());
+				try {
+					FileExport.exportGraph(model, fc.getSelectedFile().getPath());
+				} catch (IOException e1) {
+					JOptionPane.showMessageDialog(frame, e1.toString());
+				}
 			}
 			
 		}

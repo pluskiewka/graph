@@ -5,14 +5,30 @@ import java.awt.Graphics;
 
 public class Point {
 	private static int next = 0;
-	private final int id = next++;
+	private final int id;
 	private int x, y;
 	private Color color;
 	
 	public Point(int x, int y) {
 		this.x = x;
 		this.y = y;
+		this.id = next++;
 		this.color = Color.BLUE;
+	}
+	
+	public Point(int id, int x, int y) {
+		this.x = x;
+		this.y = y;
+		this.id = id;
+		if(id >next)
+			next = id;
+		this.color = Color.BLUE;
+	}
+	
+	public Point(int id) {
+		this.id = id;
+		if(id > next)
+			next = id;
 	}
 	
 	public boolean equals(Object obj) {
