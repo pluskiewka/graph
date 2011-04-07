@@ -7,15 +7,18 @@ import javax.swing.table.AbstractTableModel;
 
 import main.gui.model.Graph;
 import main.gui.model.object.Line;
+import main.gui.view.CanvasPanel;
 
 public class LineTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 7667866373992078041L;
 
 	private Graph model;
+	private CanvasPanel canvas;
 	private List<Line> lines;
 	
-	public LineTableModel(Graph model) {
+	public LineTableModel(Graph model, CanvasPanel canvas) {
 		this.model = model;
+		this.canvas = canvas;
 	}
 
 	@Override
@@ -24,6 +27,7 @@ public class LineTableModel extends AbstractTableModel {
 		case 0: return "Point 1";
 		case 1: return "Point 2";
 		case 2: return "Weight";
+		case 3: return "RGB";
 		}
 		return null;
 	}
@@ -35,7 +39,7 @@ public class LineTableModel extends AbstractTableModel {
 
 	@Override
 	public int getColumnCount() {
-		return 3;
+		return 4;
 	}
 
 	@Override
@@ -44,6 +48,7 @@ public class LineTableModel extends AbstractTableModel {
 		case 0: return lines.get(rowIndex).getLeft().getId();
 		case 1: return lines.get(rowIndex).getRight().getId();
 		case 2: return lines.get(rowIndex).getLevel();
+		case 3: return lines.get(rowIndex).getColor();
 		}
 		return null;
 	}
@@ -52,6 +57,9 @@ public class LineTableModel extends AbstractTableModel {
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 		if(columnIndex == 2) {
 			lines.get(rowIndex).setLevel(Integer.parseInt((String)aValue));
+			model.updateAll();
+			this.fireTableDataChanged();
+			canvas.repaint();
 		}
 	}
 	

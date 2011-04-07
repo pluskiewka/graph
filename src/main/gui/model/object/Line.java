@@ -1,7 +1,9 @@
-package main.gui.model.object;
+	package main.gui.model.object;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import main.gui.model.Graph;
 
@@ -9,6 +11,7 @@ public class Line {
 	private Point left, right; 
 	private int level, rgb;
 	private Graph model;
+    private int width = 3;
 	
 	public Line(Point left, Point right, int level, Graph model) {
 		this.left = left;
@@ -38,15 +41,26 @@ public class Line {
 		return right;
 	}
 	
+	public int getColor() {
+		return rgb;
+	}
+	
+	public void updateColor() {
+		double min = model.getMin(), max = model.getMax();
+		this.rgb = 255-(int)((255.0)*((level - min)/(max - min)));
+	}
+	
 	public void setLevel(int level) {
 		this.level = level;
-		model.setMinMax();
-		double min = model.getMin(), max = model.getMax();
-		this.rgb = (int)((255.0)*((level - min)/(max - min)));
+		this.model.setMinMax();
+		this.updateColor();
 	}
 	
 	public void paint(Graphics g) {
-		g.setColor(new Color(rgb, rgb, rgb));
-		g.drawLine(left.getX()+5, left.getY()+5, right.getX()+5, right.getY()+5);
+		BasicStroke bs = new BasicStroke(width);
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setStroke(bs);
+		g2.setColor(new Color(rgb, rgb, rgb));
+		g2.drawLine(left.getX()+5, left.getY()+5, right.getX()+5, right.getY()+5);
 	}
 }

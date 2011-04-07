@@ -72,7 +72,7 @@ public class MainFrame extends JFrame {
 		this.mainPanel = new JPanel();
 		this.canvas = new CanvasPanel(model);
 		this.pointTableModel = new PointTableModel(model);
-		this.lineTableModel = new LineTableModel(model);
+		this.lineTableModel = new LineTableModel(model, canvas);
 		this.pointTable = new JTable(pointTableModel);
 		this.lineTable = new JTable(lineTableModel);
 		this.scrollPane = new JScrollPane(canvas);

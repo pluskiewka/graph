@@ -15,6 +15,8 @@ import main.gui.model.table.LineTableModel;
 import main.gui.model.table.PointTableModel;
 
 public class MainController {
+	private PointTableModel pointTableModel;
+	private LineTableModel lineTableModel;
 	private MainFrame frame;
 	private Graph model;
 	
@@ -22,6 +24,8 @@ public class MainController {
 			LineTableModel lineTableModel, MainFrame frame) {
 		this.model = model;
 		this.frame = frame;
+		this.pointTableModel = pointTableModel;
+		this.lineTableModel = lineTableModel;
 		frame.addLoadButtonListener(new LoadButtonListener());
 		frame.addSaveButtonListener(new SaveButtonListener());
 		new CanvasController(model, pointTableModel, lineTableModel, frame.getCanvas());
@@ -34,14 +38,13 @@ public class MainController {
 			JFileChooser fc = new JFileChooser();
 			int ret = fc.showOpenDialog(frame);
 			if(ret == JFileChooser.APPROVE_OPTION) {
-				/*
-				 * TODO parsowanie wybranego pliku i umieszczenie go w modelu.
-				 * Dostęp do modelu poprzez interfejs Graph'u czyli addPoint, addLine
-				 * oraz new Point(x, y) oraz new Line(point1, point2);
-				 */
 				try {
 					FileImport.importGraph(model,fc.getSelectedFile().getPath());
+					model.setMinMax();
+					model.updateAll();
 					frame.getCanvas().repaint();
+					pointTableModel.fireTableDataChanged();
+					lineTableModel.fireTableDataChanged();
 				} catch (IOException e1) {
 					JOptionPane.showMessageDialog(frame, e1.toString());
 				}
@@ -57,9 +60,6 @@ public class MainController {
 			JFileChooser fc = new JFileChooser();
 			int ret = fc.showSaveDialog(frame);
 			if(ret == JFileChooser.APPROVE_OPTION) {
-				/*
-				 * TODO zapisać do pliku aktualny stan modelu graphu.
-				 */
 				try {
 					FileExport.exportGraph(model, fc.getSelectedFile().getPath());
 				} catch (IOException e1) {

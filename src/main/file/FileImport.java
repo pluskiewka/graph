@@ -52,12 +52,12 @@ public class FileImport {
 					else if(p.getId() == pid2)
 						p2 = p;
 				}
-				if(p1 != null && p2 != null)
+				if(p1 != null && p2 != null) {
 					model.addLine(p1, p2, parse(2, line));
+				}
 				line = imp.readln();
 			}
 		}
-		
 		imp.close();
 	}
 }

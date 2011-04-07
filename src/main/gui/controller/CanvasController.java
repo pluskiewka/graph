@@ -54,9 +54,10 @@ public class CanvasController {
 	}
 	
 	private void update() {
-		panel.repaint();
+		model.updateAll();
 		pointTableModel.fireTableDataChanged();
 		lineTableModel.fireTableDataChanged();
+		panel.repaint();
 	}
 	
 	class MouseListener extends MouseAdapter {

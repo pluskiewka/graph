@@ -25,10 +25,8 @@ public class Graph {
 	}
 	
 	public Line addLine(Point left, Point right, int level) {
-		if(!points.contains(left))
-			points.add(left);
-		if(!points.contains(right))
-			points.add(right);
+		addPoint(left);
+		addPoint(right);
 		if(level<min)
 			min = level;
 		else if(level>max)
@@ -46,6 +44,12 @@ public class Graph {
 		return lines;
 	}
 	
+	public void updateAll() {
+		for(Line line : lines) {
+			line.updateColor();
+		}
+	}
+	
 	public synchronized void setMinMax() {
 		int t = min;
 		min = max;
@@ -57,7 +61,7 @@ public class Graph {
 				max = line.getLevel();
 		}
 	}
-	
+
 	public int getMax() {
 		return max;
 	}
