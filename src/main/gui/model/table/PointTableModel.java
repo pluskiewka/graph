@@ -39,10 +39,14 @@ public class PointTableModel extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		switch(columnIndex){
-		case 0: return points.get(rowIndex).getId();
-		case 1: return points.get(rowIndex).getX();
-		case 2: return points.get(rowIndex).getY();
+		try {
+			switch(columnIndex){
+			case 0: return points.get(rowIndex).getId();
+			case 1: return points.get(rowIndex).getX();
+			case 2: return points.get(rowIndex).getY();
+			}
+		} catch(NullPointerException ex) {
+			return 0;
 		}
 		return null;
 	}

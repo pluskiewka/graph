@@ -7,7 +7,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 
 import main.gui.model.Graph;
-import main.gui.model.object.Line;
 import main.gui.model.object.Point;
 import main.gui.model.table.LineTableModel;
 import main.gui.model.table.PointTableModel;
@@ -18,8 +17,6 @@ public class CanvasController {
 	private Point point, toLine;
 	private PointTableModel pointTableModel;
 	private LineTableModel lineTableModel;
-	@SuppressWarnings("unused")
-	private Line line;
 	private JPanel panel;
 	
 	public CanvasController(Graph model, PointTableModel pointTableModel, LineTableModel lineTableModel, JPanel panel) {
@@ -53,10 +50,12 @@ public class CanvasController {
 		}
 	}
 	
-	private void update() {
-		model.updateAll();
+	private void updateTableData() {
 		pointTableModel.fireTableDataChanged();
 		lineTableModel.fireTableDataChanged();
+	}
+	
+	private void repaint() {
 		panel.repaint();
 	}
 	
@@ -69,31 +68,47 @@ public class CanvasController {
 		@Override
 		public void mousePressed(MouseEvent e) {
 			point = null;
+			/* Looking for vertex */
 			for(Point p : model.getPoints()) {
-				if(p.getX() > e.getX()-10 && p.getX() < e.getX()+10 && p.getY() > e.getY()-10 && p.getY() < e.getY()+10) {
+				if(p.getX() > e.getX()-10 
+						&& p.getX() < e.getX()+10 
+						&& p.getY() > e.getY()-10 
+						&& p.getY() < e.getY()+10) {
 					point = p;
+					/* Point founded */
 					break;
 				}
 			}
 			if(e.getClickCount() == 1) {
 				if(point != null && toLine == null)
-					movePoint(e.getX(), e.getY());
+					/* Dragging point */
+					movePoint(e.getX()-5, e.getY()-5);
 				else if(point != null && toLine != null) {
-					model.addLine(point, toLine, 1);
-					toLine.setColor(Color.BLUE);
-					update();
+					/* Selecting second point of line, vertex of edge */
+					model.addLine(point, toLine, 0);
+					toLine.setColor(Color.BLACK);
+					/* Updateing table data view */
+					updateTableData();
+					repaint();
+					/* Restore default value */
 					point = null;
 					toLine = null;
 				}
 			} else if (e.getClickCount() == 2) {
 				if(point != null) {
+					/* We need to select next point/vertex to make line/edge */
 					toLine = point;
+					/* Setting color of active point/vertex */
 					toLine.setColor(Color.RED);
-					update();
+					repaint();
 				} else {
-					Point point = new Point(e.getX(), e.getY());
-					model.addPoint(point);
-					update();
+					/* Create new vertex */
+					int next = Graph.getAndSetNext();
+					model.addPoint(next, e.getX()-5, e.getY()-5);
+					/* Update table data view */
+					updateTableData();
+					repaint();
+					/* Restore default value */
 					point = null;
 				}
 			}
@@ -105,7 +120,7 @@ public class CanvasController {
 		 */
 		@Override
 		public void mouseDragged(MouseEvent e) {
-			movePoint(e.getX(), e.getY());
+			movePoint(e.getX()-5, e.getY()-5);
 		}
 		
 		/**
@@ -113,7 +128,7 @@ public class CanvasController {
 		 */
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			update();
+			updateTableData();
 		}
 	}
 }

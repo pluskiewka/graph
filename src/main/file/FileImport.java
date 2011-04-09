@@ -40,7 +40,10 @@ public class FileImport {
 		if("P".equals(imp.readln())) {
 			line = imp.readln();
 			while(!("L".equals(line))) {
-				model.addPoint(new Point(parse(0, line), parse(1, line), parse(2, line)));
+				int id = parse(0,line);
+				if(Graph.getNext() < id)
+					Graph.setNext(id+1);
+				model.addPoint(id, parse(1, line), parse(2, line));
 				line = imp.readln();
 			}
 			line = imp.readln();

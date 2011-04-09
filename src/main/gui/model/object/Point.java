@@ -4,31 +4,15 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Point {
-	private static int next = 0;
 	private final int id;
 	private int x, y;
 	private Color color;
 	
-	public Point(int x, int y) {
-		this.x = x;
-		this.y = y;
-		this.id = next++;
-		this.color = Color.BLUE;
-	}
-	
 	public Point(int id, int x, int y) {
+		this.id = id;
 		this.x = x;
 		this.y = y;
-		this.id = id;
-		if(id >next)
-			next = id;
-		this.color = Color.BLUE;
-	}
-	
-	public Point(int id) {
-		this.id = id;
-		if(id > next)
-			next = id;
+		this.color = Color.BLACK;
 	}
 	
 	public boolean equals(Object obj) {
@@ -38,10 +22,6 @@ public class Point {
 	
 	public int hashCode() {
 		return id;
-	}
-	
-	public String toString() {
-		return "Point "+id;
 	}
 	
 	public int getId() {
@@ -69,6 +49,8 @@ public class Point {
 	}
 	
 	public void paint(Graphics g) {
+		g.setColor(Color.BLACK);
+		g.drawString(Integer.toString(id), x-3, y-1);
 		g.setColor(color);
 		g.fillOval(x, y, 10, 10);
 		g.setColor(color);

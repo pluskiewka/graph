@@ -27,7 +27,7 @@ public class LineTableModel extends AbstractTableModel {
 		case 0: return "Point 1";
 		case 1: return "Point 2";
 		case 2: return "Weight";
-		case 3: return "RGB";
+		case 3: return "Color";
 		}
 		return null;
 	}
@@ -43,12 +43,16 @@ public class LineTableModel extends AbstractTableModel {
 	}
 
 	@Override
-	public Object getValueAt(int rowIndex, int columnIndex) { 
-		switch(columnIndex) {
-		case 0: return lines.get(rowIndex).getLeft().getId();
-		case 1: return lines.get(rowIndex).getRight().getId();
-		case 2: return lines.get(rowIndex).getLevel();
-		case 3: return lines.get(rowIndex).getColor();
+	public Object getValueAt(int rowIndex, int columnIndex) {
+		try {
+			switch(columnIndex) {
+			case 0: return lines.get(rowIndex).getLeft().getId();
+			case 1: return lines.get(rowIndex).getRight().getId();
+			case 2: return lines.get(rowIndex).getLevel();
+			case 3: return lines.get(rowIndex).getColor();
+			}
+		} catch(NullPointerException ex) {
+			return 0;
 		}
 		return null;
 	}
@@ -56,8 +60,7 @@ public class LineTableModel extends AbstractTableModel {
 	@Override
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 		if(columnIndex == 2) {
-			lines.get(rowIndex).setLevel(Integer.parseInt((String)aValue));
-			model.updateAll();
+			model.setLevel(Integer.parseInt(aValue.toString()), lines.get(rowIndex));
 			this.fireTableDataChanged();
 			canvas.repaint();
 		}

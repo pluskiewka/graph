@@ -76,6 +76,7 @@ public class MainFrame extends JFrame {
 		this.pointTable = new JTable(pointTableModel);
 		this.lineTable = new JTable(lineTableModel);
 		this.scrollPane = new JScrollPane(canvas);
+		this.scrollPane.setAutoscrolls(true);
 		this.pointScrollPane = new JScrollPane(pointTable);
 		this.lineScrollPane = new JScrollPane(lineTable);
 		this.loadButton = new JButton(LOAD_GRAPH);

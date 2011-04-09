@@ -15,7 +15,7 @@ import main.gui.model.table.LineTableModel;
 import main.gui.model.table.PointTableModel;
 
 public class MainController {
-	private PointTableModel pointTableModel;
+	private PointTableModel pointeTableModel;
 	private LineTableModel lineTableModel;
 	private MainFrame frame;
 	private Graph model;
@@ -24,7 +24,7 @@ public class MainController {
 			LineTableModel lineTableModel, MainFrame frame) {
 		this.model = model;
 		this.frame = frame;
-		this.pointTableModel = pointTableModel;
+		this.pointeTableModel = pointTableModel;
 		this.lineTableModel = lineTableModel;
 		frame.addLoadButtonListener(new LoadButtonListener());
 		frame.addSaveButtonListener(new SaveButtonListener());
@@ -40,11 +40,9 @@ public class MainController {
 			if(ret == JFileChooser.APPROVE_OPTION) {
 				try {
 					FileImport.importGraph(model,fc.getSelectedFile().getPath());
-					model.setMinMax();
-					model.updateAll();
-					frame.getCanvas().repaint();
-					pointTableModel.fireTableDataChanged();
+					pointeTableModel.fireTableDataChanged();
 					lineTableModel.fireTableDataChanged();
+					frame.getCanvas().repaint();
 				} catch (IOException e1) {
 					JOptionPane.showMessageDialog(frame, e1.toString());
 				}

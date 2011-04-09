@@ -5,19 +5,16 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import main.gui.model.Graph;
-
 public class Line {
 	private Point left, right; 
-	private int level, rgb;
-	private Graph model;
-    private int width = 3;
+	private int color, level;
+    private final static int width = 2;
 	
-	public Line(Point left, Point right, int level, Graph model) {
+	public Line(Point left, Point right, int level) {
 		this.left = left;
 		this.right = right;
 		this.level = level;
-		this.model = model;
+		this.color = 0;
 	}
 	
 	public boolean equals(Object obj) {
@@ -29,8 +26,20 @@ public class Line {
 		return left.hashCode()+right.hashCode();
 	}
 	
+	public void setLevel(int level) {
+		this.level = level;
+	}
+	
 	public int getLevel() {
 		return level;
+	}
+	
+	public void setColor(int color) {
+		this.color = color;
+	}
+	
+	public int getColor() {
+		return color;
 	}
 	
 	public Point getLeft() {
@@ -41,26 +50,11 @@ public class Line {
 		return right;
 	}
 	
-	public int getColor() {
-		return rgb;
-	}
-	
-	public void updateColor() {
-		double min = model.getMin(), max = model.getMax();
-		this.rgb = 255-(int)((255.0)*((level - min)/(max - min)));
-	}
-	
-	public void setLevel(int level) {
-		this.level = level;
-		this.model.setMinMax();
-		this.updateColor();
-	}
-	
 	public void paint(Graphics g) {
 		BasicStroke bs = new BasicStroke(width);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setStroke(bs);
-		g2.setColor(new Color(rgb, rgb, rgb));
+		g2.setColor(new Color(color, color, color));
 		g2.drawLine(left.getX()+5, left.getY()+5, right.getX()+5, right.getY()+5);
 	}
 }
