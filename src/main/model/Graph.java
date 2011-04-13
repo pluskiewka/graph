@@ -105,12 +105,12 @@ public class Graph {
 	
 	public void setLevel(int level, Line line) {
 		/* Nastąpi zmiana wartości skrajnych */
-		boolean b = (line.getLevel() == min) || (line.getLevel() == max);
+		boolean b = ((line.getLevel() == min) || (line.getLevel() == max)) && (level > min && level < max);
 		/* Jesli dojdzie do zmiany, wymagane przekolorwanie grafu */
 		boolean t = (level<min) || (level>max);
 		
 		/* Zmiana bedzie lokalna */
-		if(!b) {
+		if(t) {
 			if(level<min)
 				min = level;
 			if(level>max)
