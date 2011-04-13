@@ -3,9 +3,8 @@ package main.test;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import main.gui.MainFrame;
-import main.gui.model.Graph;
-import main.gui.model.object.Point;
+import main.model.Graph;
+import main.model.object.Point;
 import main.util.Random;
 
 public class Test {
@@ -24,26 +23,27 @@ public class Test {
 	}
 	
 	public static void main(String []args) {
-		Graph model = new Graph();
-		MainFrame frame = new MainFrame(model);
-		int id, deg;
+		int id, n;
 		
-		for(int i=0; i<20; i++)  {
-			id = Graph.getAndSetNext();
-			deg = Random.nextInt(360);
-			model.addPoint(id, (int)(200*Math.cos(deg)+300), (int)(200*Math.sin(deg)+250));
-			frame.getCanvas().repaint();
-		}
-		
-		for(Point point : model.getPoints()) {
-			if(Random.nextInt(100)>50) {
+		for(int k=0; k<20; k++) {
+			Graph model = new Graph();
+			n = (int) Math.pow(2, k);
+			for(int i=0; i<n; i++)  {
+				id = Graph.getAndSetNext();
+				// deg = Random.nextInt(360);
+				// model.addPoint(id, (int)(200*Math.cos(deg)+300), (int)(200*Math.sin(deg)+250));
+				model.addPoint(id, 0, 0);
+			}
+			
+			long p1 = System.nanoTime();
+			for(Point point : model.getPoints()) {
 				for(Point toLine : model.getPoints()) {
-					if(Random.nextInt(100)>25) {
-						model.addLine(point, toLine, Random.nextInt(40)-20);
-						frame.getCanvas().repaint();
-					}
+					model.addLine(point, toLine, Random.nextInt(40)-20);
 				}
 			}
+			long p2 = System.nanoTime();
+			
+			System.err.println("Total time for " + n + ": " + Double.toString((double)(p2-p1)/1000000000.0));
 		}
 	}
 }

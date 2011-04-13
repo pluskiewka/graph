@@ -10,9 +10,9 @@ import javax.swing.JOptionPane;
 import main.file.FileExport;
 import main.file.FileImport;
 import main.gui.MainFrame;
-import main.gui.model.Graph;
 import main.gui.model.table.LineTableModel;
 import main.gui.model.table.PointTableModel;
+import main.model.Graph;
 
 public class MainController {
 	private PointTableModel pointeTableModel;

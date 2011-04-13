@@ -4,7 +4,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import main.gui.MainFrame;
-import main.gui.model.Graph;
+import main.model.Graph;
 
 /**
  * Ustawienie PLAF'a, utworzenie modelu grafu, utworzenie głównego okna i głównego kontrolera.

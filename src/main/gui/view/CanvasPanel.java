@@ -3,9 +3,9 @@ package main.gui.view;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 
-import main.gui.model.Graph;
-import main.gui.model.object.Line;
-import main.gui.model.object.Point;
+import main.model.Graph;
+import main.model.object.Line;
+import main.model.object.Point;
 
 /**
  * Canvas czyli ten panel, gdzie to umieszczane są punkty oraz krawędzie i zachodzi

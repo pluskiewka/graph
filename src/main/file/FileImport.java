@@ -5,8 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import main.gui.model.Graph;
-import main.gui.model.object.Point;
+import main.model.Graph;
+import main.model.object.Point;
 
 public class FileImport {
 	private String path;

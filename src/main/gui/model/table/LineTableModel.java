@@ -1,20 +1,15 @@
 package main.gui.model.table;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.table.AbstractTableModel;
 
-import main.gui.model.Graph;
-import main.gui.model.object.Line;
 import main.gui.view.CanvasPanel;
+import main.model.Graph;
 
 public class LineTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 7667866373992078041L;
 
 	private Graph model;
 	private CanvasPanel canvas;
-	private List<Line> lines;
 	
 	public LineTableModel(Graph model, CanvasPanel canvas) {
 		this.model = model;
@@ -44,15 +39,11 @@ public class LineTableModel extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		try {
-			switch(columnIndex) {
-			case 0: return lines.get(rowIndex).getLeft().getId();
-			case 1: return lines.get(rowIndex).getRight().getId();
-			case 2: return lines.get(rowIndex).getLevel();
-			case 3: return lines.get(rowIndex).getColor();
-			}
-		} catch(NullPointerException ex) {
-			return 0;
+		switch(columnIndex) {
+			case 0: return model.getLines().get(rowIndex).getLeft().getId();
+			case 1: return model.getLines().get(rowIndex).getRight().getId();
+			case 2: return model.getLines().get(rowIndex).getLevel();
+			case 3: return model.getLines().get(rowIndex).getColor();
 		}
 		return null;
 	}
@@ -60,7 +51,7 @@ public class LineTableModel extends AbstractTableModel {
 	@Override
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 		if(columnIndex == 2) {
-			model.setLevel(Integer.parseInt(aValue.toString()), lines.get(rowIndex));
+			model.setLevel(Integer.parseInt(aValue.toString()), model.getLines().get(rowIndex));
 			this.fireTableDataChanged();
 			canvas.repaint();
 		}
@@ -71,12 +62,6 @@ public class LineTableModel extends AbstractTableModel {
 		if(columnIndex == 2)
 			return true;
 		return false;
-	}
-	
-	@Override
-	public void fireTableDataChanged() {
-		super.fireTableDataChanged();
-		lines  = new ArrayList<Line>(model.getLines());
 	}
 
 }

@@ -11,10 +11,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import main.gui.controller.MainController;
-import main.gui.model.Graph;
 import main.gui.model.table.LineTableModel;
 import main.gui.model.table.PointTableModel;
 import main.gui.view.CanvasPanel;
+import main.model.Graph;
 
 /**
  * Główne okno programu, tworzymy w nim obiekt głównego panelu.

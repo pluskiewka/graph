@@ -4,9 +4,9 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import main.gui.model.Graph;
-import main.gui.model.object.Line;
-import main.gui.model.object.Point;
+import main.model.Graph;
+import main.model.object.Line;
+import main.model.object.Point;
 
 public class FileExport {
 	private String path;

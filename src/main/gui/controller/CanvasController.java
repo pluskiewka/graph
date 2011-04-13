@@ -6,10 +6,10 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 
-import main.gui.model.Graph;
-import main.gui.model.object.Point;
 import main.gui.model.table.LineTableModel;
 import main.gui.model.table.PointTableModel;
+import main.model.Graph;
+import main.model.object.Point;
 
 public class CanvasController {
 
