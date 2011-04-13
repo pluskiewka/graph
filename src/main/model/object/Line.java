@@ -5,6 +5,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+/**
+ * Przechowuje informacje o krawędzie.
+ */
 public class Line {
 	private Point left, right; 
 	private int color, level;

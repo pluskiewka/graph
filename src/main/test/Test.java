@@ -22,6 +22,11 @@ public class Test {
 		}
 	}
 	
+	/**
+	 * Tworzymy zadaną ilość wierzchołków, a następnie tworzymy z tego graf pełny.
+	 * Testujemy dla ilości wierzchołków będących krotnością liczby 2.
+	 * @param args
+	 */
 	public static void main(String []args) {
 		int id, n;
 		

@@ -4,6 +4,11 @@ import javax.swing.table.AbstractTableModel;
 
 import main.model.Graph;
 
+/**
+ * Model danych tabelarycznych, opakowywujący główny model.
+ * Tutaj: jest to model dla tabeli przechowywującej informacje 
+ * o wierzchołkach.
+ */
 public class PointTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 6577263667054304933L;
 

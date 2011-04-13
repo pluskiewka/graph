@@ -7,12 +7,20 @@ import java.util.List;
 import main.model.object.Line;
 import main.model.object.Point;
 
+/**
+ * Model grafu. Agreguje wierzchołki oraz krawędzie. Odpowiada
+ * za operacje dot. ustalania kolorów krawędzi.
+ */
 public class Graph {
 	private static Integer next = 0;
 	private List<Line> lines;
 	private List<Point> points;
 	private int min, max;
 	
+	/**
+	 * Zwraca informację o następnym, wolnym identyfikatorze, 
+	 * który należy przypisać wierzchołkowi.
+	 */
 	public static int getAndSetNext() {
 		synchronized(next) {
 			int ret = next;
@@ -21,14 +29,27 @@ public class Graph {
 		}
 	}
 	
+	/**
+	 * Zwraca wartość obecną, ostatnio przypisanego identyfikatora
+	 * wierzchołka.
+	 * @return
+	 */
 	public static int getNext() {
 		return next;
 	}
 	
+	/**
+	 * Ustawia wartość, wołana przez FileImport, gdyż numeracja
+	 * wierzchołków, zapisanego grafu może być inna, i należy 
+	 * synchronizować istniejący już model oraz ładowany z pliku.
+	 */
 	public static void setNext(int next) {
 		Graph.next = next;
 	}
 	
+	/**
+	 * Tworzy model grafu, tworzą odpowiednie kolekcje.
+	 */
 	public Graph() {
 		lines = new LinkedList<Line>();
 		points = new LinkedList<Point>();
@@ -36,11 +57,29 @@ public class Graph {
 		max=0;
 	}
 	
+	/**
+	 * Dodanie wierzchołka do modelu grafu, z podaniem wpsółrzędnych
+	 * oraz identyfikatora wierzchołka.
+	 * @param id
+	 * @param x
+	 * @param y
+	 */
 	public void addPoint(int id, int x, int y) {
 		Point point = new Point(id, x, y);
 		points.add(point);	
 	}
 	
+	/**
+	 * Dodanie krawędzi do grafu, z podaniem końców krawędzi oraz 
+	 * jej wagi. Przy okazji, ustala się lokalnie zmiany dot. wartości zakresu
+	 * wag krawędzi w modelu, służące do ustalenia odcienia szarości
+	 * krawędzi. W zależności od tego, czy waga nowej krawędzi, jest
+	 * jednym z zakresów, wymagane jest ustalenie dla wszystkich krawędzi
+	 * nowej wartości odcienia szarości. 
+	 * @param left
+	 * @param right
+	 * @param level
+	 */
 	public void addLine(Point left, Point right, int level) {
 		Line line = new Line(left, right, level);
 		lines.add(line);

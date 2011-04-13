@@ -3,6 +3,9 @@ package main.model.object;
 import java.awt.Color;
 import java.awt.Graphics;
 
+/**
+ * Przechowuje informację o wierzchołku
+ */
 public class Point {
 	private final int id;
 	private int x, y;

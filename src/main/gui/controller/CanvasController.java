@@ -11,6 +11,10 @@ import main.gui.model.table.PointTableModel;
 import main.model.Graph;
 import main.model.object.Point;
 
+/**
+ * Kontroler, czyli klasa, którego obiekt posiadający tutaj zdefiniowane metody
+ * są one wołane w momencie wystąpienia zdarzenia na panelu rysującym graf.
+ */
 public class CanvasController {
 
 	private Graph model;
@@ -19,6 +23,16 @@ public class CanvasController {
 	private LineTableModel lineTableModel;
 	private JPanel panel;
 	
+	/**
+	 * Tworzy obiekt kontrolera, z podaniem wszelki modeli, jakie istnieją w programie,
+	 * tj. modelu głównego, modeli tabel oraz referencji na panel gdzie rysowany jest graf.
+	 * W zależności od zachodzących zdarzeń na panelu, wykonywane są odpowiedni operacje
+	 * na modelu a następnie aktualizowany widok grafu, jak i tabel w głównym oknie.
+	 * @param model
+	 * @param pointTableModel
+	 * @param lineTableModel
+	 * @param panel
+	 */
 	public CanvasController(Graph model, PointTableModel pointTableModel, LineTableModel lineTableModel, JPanel panel) {
 		this.model = model;
 		this.panel = panel;
@@ -50,11 +64,17 @@ public class CanvasController {
 		}
 	}
 	
+	/**
+	 * Aktualizacja danych w tabeli.
+	 */
 	private void updateTableData() {
 		pointTableModel.fireTableDataChanged();
 		lineTableModel.fireTableDataChanged();
 	}
 	
+	/**
+	 * Aktualizacja widoku grafu.
+	 */
 	private void repaint() {
 		panel.repaint();
 	}
@@ -68,47 +88,62 @@ public class CanvasController {
 		@Override
 		public void mousePressed(MouseEvent e) {
 			point = null;
-			/* Looking for vertex */
+			/* Nastąpiło zdarzenie przycisnięcia wskaźnika, gdy był on
+			 * nad rysunkiem grafu. Następuje przeszukiwanie zbioru 
+			 * wierzchołków, w celu ustalenia o których wierzchołek chodzi.
+			 * Przyjmuje sie margines błędu do 10 pixeli. */
 			for(Point p : model.getPoints()) {
 				if(p.getX() > e.getX()-10 
 						&& p.getX() < e.getX()+10 
 						&& p.getY() > e.getY()-10 
 						&& p.getY() < e.getY()+10) {
 					point = p;
-					/* Point founded */
+					/* Wierzchołek został znaleziony. */
 					break;
 				}
 			}
+			/* Jeśli wystąpiło tylko jedno przyciśnięcie, to mamy do 
+			 * czynienia w zależności od poprzednich operacji, z 
+			 * przemieszczaniem wierzchołka, tzw. dragging, albo z 
+			 * wybranie drugiego wierzchołka do połączenia dwóch
+			 * wybranych krawędzią. */
 			if(e.getClickCount() == 1) {
 				if(point != null && toLine == null)
-					/* Dragging point */
+					/* Wierzchołek będzie przemieszczany, gdyż nie został
+					 * wybrany inny do połączenia ich krawędzią. */
 					movePoint(e.getX()-5, e.getY()-5);
 				else if(point != null && toLine != null) {
-					/* Selecting second point of line, vertex of edge */
+					/* Wierzchołek poprzedni został wcześniej wskazany,
+					 * łączymy je krawędzią, dodając nową krawędź do
+					 * modelu. */
 					model.addLine(point, toLine, 0);
 					toLine.setColor(Color.BLACK);
-					/* Updateing table data view */
+					/* Aktualizacja danych w tabelach oraz na rysunku */
 					updateTableData();
 					repaint();
-					/* Restore default value */
+					/* Przywrócenie wartości domyślnych  */
 					point = null;
 					toLine = null;
 				}
 			} else if (e.getClickCount() == 2) {
 				if(point != null) {
-					/* We need to select next point/vertex to make line/edge */
+					/* Dwukrotne kliknięcie oznacza albo wybór istniejącego 
+					 * wierzchołka do połączenia go z innym, albo jeśli nie istenieje
+					 * pod wskazywanym przez wskaźnik miejscem, wierzchołek,
+					 * tworzy się nowy wierzchołek. Tutaj mamy do czynienia z
+					 * wyborem wierzchołka na połączenie go krawędzia. */
 					toLine = point;
-					/* Setting color of active point/vertex */
 					toLine.setColor(Color.RED);
 					repaint();
 				} else {
-					/* Create new vertex */
+					/* Dodajemy nowy wierzchołek, podając identyfikator
+					 * oraz współrzędne. */
 					int next = Graph.getAndSetNext();
 					model.addPoint(next, e.getX()-5, e.getY()-5);
-					/* Update table data view */
+					/* Aktualizujemy dane w tabelach oraz na panelu. */
 					updateTableData();
 					repaint();
-					/* Restore default value */
+					/* Przywracamy wartości domyślne. */
 					point = null;
 				}
 			}

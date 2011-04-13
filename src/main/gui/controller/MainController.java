@@ -14,6 +14,10 @@ import main.gui.model.table.LineTableModel;
 import main.gui.model.table.PointTableModel;
 import main.model.Graph;
 
+/**
+ * Kontroler głównego widoku. Ustala zachowania przycisków zapisu
+ * i ładowania z pliku grafu.
+ */
 public class MainController {
 	private PointTableModel pointeTableModel;
 	private LineTableModel lineTableModel;

@@ -5,6 +5,11 @@ import javax.swing.table.AbstractTableModel;
 import main.gui.view.CanvasPanel;
 import main.model.Graph;
 
+/**
+ * Model danych tabelarycznych, opakowywujący główny model.
+ * Tutaj: jest to model dla tabeli przechowywującej informacje 
+ * o krawędziach.
+ */
 public class LineTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 7667866373992078041L;
 

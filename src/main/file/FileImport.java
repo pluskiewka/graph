@@ -8,30 +8,63 @@ import java.io.IOException;
 import main.model.Graph;
 import main.model.object.Point;
 
+/**
+ * Klasa której obiekt wykorzystywany jest to odtwarzania grafu z podanego pliku.
+ * Plik ten jest wynikiem zapisu grafu prz pomocy obiektu klasy FileExport.
+ */
 public class FileImport {
 	private String path;
 	private FileReader file;
 	private BufferedReader in;
 	
+	/**
+	 * Zapisujemy informację o ścieżce dostępu do pliku, orz otwieramy plik,
+	 * a następnie otwieramy strumień odczytu znakowego pliku.
+	 * @param path
+	 * @throws FileNotFoundException
+	 */
 	public FileImport(String path) throws FileNotFoundException {
 		this.path = path;
 		this.file = new FileReader(this.path);
 		this.in = new BufferedReader(this.file);
 	}
 	
+	/**
+	 * Odczytujemy kolejną linię w pliku.
+	 * @return
+	 * @throws IOException
+	 */
 	public String readln() throws IOException {
 		return in.readLine();
 	}
 	
+	/**
+	 * Zamykamy strumień z którego czytaliśmy, jak plik.
+	 * @throws IOException
+	 */
 	public void close() throws IOException {
 		in.close();
 		file.close();
 	}
 	
+	/**
+	 * Statyczna metoda służąca do parsowania lini zwróconej
+	 * przez readln(). 
+	 * @param ind
+	 * @param line
+	 * @return
+	 */
 	private static int parse(int ind, String line) {
 		return Integer.parseInt(line.split(" ")[ind]);
 	}
 	
+	/**
+	 * Statyczna metoda służąca do importu grafu, pod wskazany
+	 * przez parametr model, z podanego pliku poprzez ścieżkę.
+	 * @param model
+	 * @param path
+	 * @throws IOException
+	 */
 	public static void importGraph(Graph model, String path) throws IOException {
 		FileImport imp = new FileImport(path);
 		String line;

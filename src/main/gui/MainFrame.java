@@ -49,18 +49,34 @@ public class MainFrame extends JFrame {
 		new MainController(model, pointTableModel, lineTableModel, this);
 	}
 	
+	/**
+	 * Zwaca referencję na panel, gdzie rysowany jest graf.
+	 * @return
+	 */
 	public CanvasPanel getCanvas() {
 		return canvas;
 	}
 	
+	/**
+	 *  Zwraca referencję na panel główny.
+	 * @return
+	 */
 	public JPanel getMainPanel() {
 		return mainPanel;
 	}
 	
+	/**
+	 * Dodanie listener na przycisk do ładowania grafu z pliku.
+	 * @param listener
+	 */
 	public void addLoadButtonListener(ActionListener listener) {
 		loadButton.addActionListener(listener);
 	}
 	
+	/**
+	 * Dodanie listener na przycisk zapisu grafu do pliku.
+	 * @param listener
+	 */
 	public void addSaveButtonListener(ActionListener listener) {
 		saveButton.addActionListener(listener);
 	}
